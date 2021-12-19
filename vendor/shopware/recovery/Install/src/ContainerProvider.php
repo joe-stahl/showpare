@@ -27,6 +27,7 @@ use Shopware\Recovery\Install\Service\WebserverCheck;
 use Slim\App;
 use Slim\Views\PhpRenderer;
 use Symfony\Component\Dotenv\Dotenv;
+use Shopware\Recovery\Update\Utils;
 
 class ContainerProvider implements ServiceProviderInterface
 {
@@ -45,6 +46,15 @@ class ContainerProvider implements ServiceProviderInterface
      */
     public function register(Container $container): void
     {
+        ini_set('memory_limit', '1024M');
+        // ini_set('upload_max_filesize', '6M');
+
+        $container['dbal'] = function ($c) {
+            $conn = Utils::getConnection(SW_PATH);
+
+            return $conn;
+        };
+
         $recoveryRoot = \dirname(__DIR__, 2);
         $container['config'] = $this->config;
         $container['install.language'] = '';
@@ -192,8 +202,10 @@ class ContainerProvider implements ServiceProviderInterface
             );
         };
 
-        $container['dbal'] = static function (): void {
-            throw new \RuntimeException('Identifier dbal not initialized yet');
+        $container['dbal'] = function ($c) {
+            $conn = Utils::getConnection(SW_PATH);
+
+            return $conn;
         };
 
         $container['migration.sources'] = static function ($c) {

@@ -1,0 +1,18 @@
+{
+  "name": "swag/theme-skeleton",
+  "description": "Theme skeleton plugin",
+  "type": "shopware-platform-plugin",
+  "license": "MIT",
+  "autoload": {
+    "psr-4": {
+      "Frontend\\": "src/"
+    }
+  },
+  "extra": {
+    "shopware-plugin-class": "Frontend\\Frontend",
+    "label": {
+      "de-DE": "Theme Frontend plugin",
+      "en-GB": "Theme Frontend plugin"
+    }
+  }
+}
